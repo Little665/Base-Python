@@ -19,17 +19,23 @@ from io import BytesIO
 from PIL import Image, ImageDraw, ImageFont, ImageOps
 
 
-@avatar.error
-async def on_command_error(ctx, error):
-    embed = discord.Embed(description=f"*Este usuário não foi encontrado! Por favor, verifique-se se o usuário esta no servidor!*", color=0x6508ab)
-    await  ctx.send(ctx.author.mention, embed=embed, ephemeral=True)
 
 class information(commands.Cog):
 	def __init__(self, bot: commands.Bot):
 		self.bot = bot
 
+	@app_commands.command(name="say", description="Mande mensagem através de mim.")
+	@app_commands.guilds(900524034356285471)
+	#@app_commands.describe(mensagem="") 
+	async def say(self, interaction: discord.Interaction, mensagem: str):
+	    #await ctx.defer(ephemeral=True)
+	    # await asyncio.sleep(4) 
+	    #await ctx.send(content=msg)
+	    await interaction.response.send_message(f"{mensagem}\n\n\n*🤖 Mensagem enviada por: {interaction.user.mention}*")
+	    # await reaction.add_reaction('⚠️')
 
-	@app_commands.command(name="avatar", description="adf")
+	
+	@app_commands.command(name="avatar", description="(🔍) Veja o avatar de um usuário!")
 	@app_commands.guilds(900524034356285471)
 	async def avatar(self, interaction: discord.Interaction, membro: discord.Member = None):
 	    if not membro:
@@ -41,6 +47,11 @@ class information(commands.Cog):
 	    embed = discord.Embed(description=f"**<:modopaisagem:966163112212447354> `Avatar de:` {membro.mention}**", color=0x6508ab)
 	    embed.set_image(url=f"{membro.display_avatar}")
 	    await interaction.response.send_message(interaction.user.mention, embed=embed, view=view)
+	
+	@avatar.error
+	async def on_command_error(self, interaction: discord.Interaction, error):
+	    embed = discord.Embed(description=f"*Este usuário não foi encontrado! Por favor, verifique-se se o usuário esta no servidor!*", color=0x6508ab)
+	    await interaction.response.send_message(interaction.user.mention, embed=embed, ephemeral=True)
 
 async def setup(bot: commands.Bot):
 	await bot.add_cog(information(bot))
