@@ -19,17 +19,19 @@ from io import BytesIO
 from PIL import Image, ImageDraw, ImageFont, ImageOps
 
 
+@avatar.error
+async def on_command_error(ctx, error):
+    embed = discord.Embed(description=f"*Este usuário não foi encontrado! Por favor, verifique-se se o usuário esta no servidor!*", color=0x6508ab)
+    await  ctx.send(ctx.author.mention, embed=embed, ephemeral=True)
+
 class information(commands.Cog):
 	def __init__(self, bot: commands.Bot):
 		self.bot = bot
 
-	@app_commands.command(name="introu", description="adf")
-	async def introu(self, interaction: discord.Interaction, name: str):
-		await interaction.response.send_message(f"a {name}")
 
-	@app_commands.command(name="ab", description="adf")
+	@app_commands.command(name="avatar", description="adf")
 	@app_commands.guilds(900524034356285471)
-	async def ab(self, interaction: discord.Interaction, membro: discord.Member = None):
+	async def avatar(self, interaction: discord.Interaction, membro: discord.Member = None):
 	    if not membro:
 	        membro = interaction.user
 
