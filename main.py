@@ -124,19 +124,7 @@ class Hora():
         return hora_sp  
 
 
-
-# comando hibrido (slash e prefixed command)
-@bot.hybrid_command(name="say", description="Mande mensagem através de mim.")
-@app_commands.guilds(900524034356285471)
-#@app_commands.describe(mensagem="") # descrever o argumento msg
-async def say(ctx, *, mensagem: str):
-    #await ctx.defer(ephemeral=True)
-    # await asyncio.sleep(4) 
-    #await ctx.send(content=msg)
-    await ctx.send(f"{mensagem}\n\n\n*🤖 Mensagem enviada por: {ctx.author.mention}*")
-    # await reaction.add_reaction('⚠️')
-
-
+# aqui são os buttons que e usado no command ping, para configura buttons você deve ir no "./config/config_buttons"
 class buttonPing(discord.ui.View):
     @discord.ui.button(label="Atualizar Ping", style=discord.ButtonStyle.primary, emoji="<:antenna:963446876496101437>")
     async def button_ping(self, interaction: discord.Interaction, button: discord.ui.Button):
@@ -146,6 +134,7 @@ class buttonPing(discord.ui.View):
 
         await interaction.response.edit_message(embed=embed)
 
+# aqui ele vai funciona tanto pra slash e prefix ao mesmo tempo!
 @bot.hybrid_command(name="ping", description="(🏓) Veja meu ping.")
 @app_commands.guilds(900524034356285471)
 async def ping(ctx):
