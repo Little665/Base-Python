@@ -34,9 +34,9 @@ token = configData["Token"]
 prefix = configData["Prefix"]
 
 #config firebase 
-link_firebase = "https://mikarpg-4d967-default-rtdb.firebaseio.com"
+link_firebase = "" # Essa base ultiliza firebase como banco de dados, se você não usa firebase não tem problema
 
-id_do_servidor = 900524034356285471 # id do servidor, caso queira comando global coloque None (mas os comandos podem demorar aparecer).
+id_do_servidor = 900524034356285471 # coloca o id do seu servidor de teste do seu bot.
 
 
 # CMD DESENHOS
@@ -56,7 +56,7 @@ print()
 class MyBot(commands.Bot):
 
     def __init__(self):
-        super().__init__(intents=discord.Intents.all(), command_prefix=commands.when_mentioned_or(f"{prefix}")) # o bot vai responder tanto o prefixo especificado e menção como prefixo (ex: @seubot ping).
+        super().__init__(intents=discord.Intents.all(), command_prefix=commands.when_mentioned_or(f"{prefix}"))
 
     async def setup_bot(self):
         await self.wait_until_ready()
@@ -84,7 +84,7 @@ class MyBot(commands.Bot):
 
     async def setup_hook(self):
 
-        # carregar cogs/extensões da pasta cogs
+        # o cogs são como as pasta de " commands " do discord.js
         if os.path.isdir(f'./cogs'):
             for filename in os.listdir(f'./cogs'):
                 if filename.endswith('.py'):
@@ -101,7 +101,7 @@ class MyBot(commands.Bot):
 
 bot = MyBot()
 
-
+# configurações para não da erro quando alguém usa um comando que não exista!
 @bot.event
 async def on_command_error(ctx, error):
     if isinstance(error, commands.BotMissingPermissions):
@@ -110,25 +110,11 @@ async def on_command_error(ctx, error):
     if isinstance(error, commands.MissingPermissions):
         await ctx.send('Você não tem permissões para usar este comando.')
 
-
-# TESTE V2.0
-# comando slash
-@bot.tree.command(name="testslash")
-@app_commands.guilds(900524034356285471) # registrar comando de barra apenas pra servidores especificos
-async def testslash(interaction: discord.Interaction):
-    # interaction.user = interaction.author
-    await interaction.response.send_message("blablabla", ephemeral=True)
-
-@bot.tree.command(name="a", description="a")
-@app_commands.guilds()
-async def a(interaction: discord.Interaction):
-    await interaction.response.send_message('aaa')  
-
 # hora class 
 class Hora():
     def __init__(self):
         pass
-
+    # aqui e um função que pega a hora de são paulo! você pode muda o " timedelta " de acordo com a hora da sua cidade e estado
     def hours(self):
         data = datetime.now()
         diferenca = timedelta(hours=-3)
@@ -136,28 +122,6 @@ class Hora():
         hora = data.astimezone(fuso_horario)
         hora_sp = hora.strftime('%H:%M')
         return hora_sp  
-
-
-
-
-
-@bot.hybrid_command(name="avatar", description="(🔍) Veja o avatar de um usuário!")
-@app_commands.guilds(900524034356285471)
-async def avatar(ctx, membro: discord.Member = None):
-    if not membro:
-        membro = ctx.author
-
-    view = buttons_all.button_avatar_user()
-    view.add_item(discord.ui.Button(label="Download Avatar", style=discord.ButtonStyle.primary, url=f"{membro.display_avatar}", emoji="<:download:976292381324374016>"))
-
-    embed = discord.Embed(description=f"**<:modopaisagem:966163112212447354> `Avatar de:` {membro.mention}**", color=0x6508ab)
-    embed.set_image(url=f"{membro.display_avatar}")
-    await ctx.send(ctx.author.mention, embed=embed, view=view)
-
-@avatar.error
-async def on_command_error(ctx, error):
-    embed = discord.Embed(description=f"*Este usuário não foi encontrado! Por favor, verifique-se se o usuário esta no servidor!*", color=0x6508ab)
-    await  ctx.send(ctx.author.mention, embed=embed, ephemeral=True)
 
 
 
