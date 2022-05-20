@@ -6,11 +6,13 @@ import os
 import requests
 from io import BytesIO
 
+#aqui era configurações do RPG da mika, você pode deleta se quiser
+
 if os.path.exists(os.getcwd() + ".../config/firebase_link.json"):
     with open(".../config/firebase_link.json") as f:
         configData = json.load(f)
 else:
-    configTemplate = {"link": "https://mikarpg-4d967-default-rtdb.firebaseio.com"}
+    configTemplate = {"link": ""}
     
     with open(os.getcwd() + "/config/firebase_link.json", "w+") as f:
         json.dump(configTemplate, f)
