@@ -79,7 +79,7 @@ class MyBot(commands.Bot):
         # online = await channel.send("<@!904572362039631932>", embed=embed)
         # await online.add_reaction('✅')
 
-        await bot.change_presence(status=discord.Status.online, activity=discord.Streaming(name="Pica do debra e grossa", url='https://www.twitch.tv/directory/game/The%20Witcher%203%3A%20Wild%20Hunt'))
+        await bot.change_presence(status=discord.Status.online, activity=discord.Streaming(name="Discord.py [v2]", url='https://www.twitch.tv/directory/game/The%20Witcher%203%3A%20Wild%20Hunt'))
         bot.remove_command('help')
 
     async def setup_hook(self):
